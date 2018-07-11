@@ -7,9 +7,11 @@ df = pd.read_csv('data/BTC.csv')
 # Just to display the first 5 lines
 # df.head(5)
 
-# convert second precision to nanosecond precision
-# df['time'] = [str(df['time'][t]) + "000000000" for t in range(len(df))]
-df['time'] = df['time'].apply(lambda x: x * 1000000000)
+# rename column 'time' to 'unix_time' (https://en.wikipedia.org/wiki/Unix_time)
+df.rename(inplace=True, columns={'time': 'unix_time'})
+
+# convert second precision to nanosecond precision (add a column 'time in nanoseconds')
+df['time_ns'] = df['unix_time'].apply(lambda x: x * 1000000000)
 # Col 'time' dtype is int64 (check with `df.dtypes`)
 # df.head(5)
 
